@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 
 import styles from "./container.module.css";
 
@@ -24,8 +25,15 @@ const Container = () => {
   };
 
   const handleSubmission = (e) => {
-    e.prevenDefault();
-    console.log("Form submitted", data);
+    e.preventDefault();
+    try {
+      const response = tab
+        ? axios.post("http://localhost:3000/register", data)
+        : "";
+      console.log(response, "success");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -38,8 +46,8 @@ const Container = () => {
           Sign Up
         </span>
       </div>
-      <div className={styles.form}>
-        <form onSubmit={handleSubmission}>
+      <form onSubmit={handleSubmission}>
+        <div className={styles.form}>
           {tab ? (
             <>
               <input
@@ -85,8 +93,8 @@ const Container = () => {
           <div className={styles.button}>
             <button type="submit">Submit</button>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   );
 };
