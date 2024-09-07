@@ -1,0 +1,46 @@
+.box{
+    border: 1px solid black;
+    padding: 20px 10px;
+    width: 20em;
+    height: 15em;
+}
+
+.tabs{
+    display: flex;
+    justify-content: space-evenly;
+    padding: 0px 20px;
+    border-bottom: 1px solid black;
+}
+
+.tabs span{
+    cursor: pointer;
+    padding-bottom: 20px;
+}
+
+.tab{
+     text-decoration:underline;
+}
+
+.form{
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
+.form input{
+    padding: 10px;
+}
+
+.button{
+    display: flex;
+    justify-content: center;
+}
+.button button{
+    padding: 10px 15px;
+    width: 8em;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
