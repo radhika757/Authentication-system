@@ -29,7 +29,7 @@ const Container = () => {
     try {
       const response = tab
         ? axios.post("http://localhost:3000/register", data)
-        : "";
+        : axios.post("http://localhost:3000/login", data);
       console.log(response, "success");
     } catch (error) {
       console.log(error);

@@ -3,7 +3,7 @@ Quick Pointers:
 If you want to use ES6 Modules add "type": "module" in package.json. 
 2. bcrypt is a popular library for hashing passwords , to securely store them in a database. 
 **Salt** is a random data added to the password before hashing. This ensures that if two users have same password then the resulting hashes will be different. 
-**SaltRounds** (cost factor) - determines ow many times the bcrypt algo will process the data.
+**SaltRounds** (cost factor) - determines how many times the bcrypt algo will process the data.
 A higher number means more processing time, making the hash more secure but slower to compute.
 Bcrypt internally generates a salt using the given number of saltRounds (10 in this case).
 It appends the salt to the plaintext password.
