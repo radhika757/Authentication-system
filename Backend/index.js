@@ -22,13 +22,12 @@ app.listen(PORT, () => {
 
 app.post('/register', async (req, res) => {
     const { name, email, password } = req.body;
-    console.log(name, email, password);
+   
     // hash the password 
     try {
         const saltRounds = 10;
+        // bcrypt.hash() is a async function that hashes the password. 
         const hashedPassword = await bcrypt.hash(password, saltRounds);
-        console.log(hashedPassword, password);
-
         const query = `
         INSERT INTO users (username,email,password) VALUES ($1,$2,$3) RETURNING *
         `; // parameterized queries, RETURNING * clause makes sure inserted user data is returned.
@@ -37,7 +36,7 @@ app.post('/register', async (req, res) => {
 
         res.status(201).json({
             message: 'User registered successfully',
-            user: result.rows[0], // return user data without
+            user: result.rows[0], // return user data without id
         });
     } catch (error) {
         console.error('Error registering user:', error);
