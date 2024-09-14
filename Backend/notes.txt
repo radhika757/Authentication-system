@@ -15,3 +15,9 @@ Finally, the hashed password (which also contains the salt) is returned and can 
 To have a protected route, we can use JWT(JSON Web Token) authentication. 
 First, check if user has a valid token before accessing the protected route.
 Then, Redirect the unauthorized users to the login page if they dont have a valid token. 
+
+4. Difference between res.json and res.status()?
+Both are used to send HTTPS responses to client. res.JSON() is used to send JSON response to client It converts a JavaScript object or array into a JSON string and sends it as the response body, 
+along with a Content-Type: application/json header. By default, it sends a 200 OK status if no status is set explicitly.
+res.status() - Sets the status code but doesn’t send the response. res.status() is used to set the HTTP status code of the response. It does not send the response immediately; 
+instead, it prepares the status code for the next method that sends the response (e.g., res.send(), res.json()).
