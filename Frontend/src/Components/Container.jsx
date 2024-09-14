@@ -1,9 +1,13 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import styles from "./container.module.css";
+import { useAuth } from "../AuthContext.jsx";
 
 const Container = () => {
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const [tab, setTab] = useState(true);
   const [data, setData] = useState({
     name: "",
@@ -24,13 +28,17 @@ const Container = () => {
     });
   };
 
-  const handleSubmission = (e) => {
+  const handleSubmission = async (e) => {
     e.preventDefault();
     try {
       const response = tab
-        ? axios.post("http://localhost:3000/register", data)
-        : axios.post("http://localhost:3000/login", data);
-      console.log(response, "success");
+        ? await axios.post("http://localhost:3000/register", data)
+        : await axios.post("http://localhost:3000/login", data);
+      // React isn't automatically re-rendering the component after setting the token.
+      // React does'nt detect changes in localstorage unless you explicitly trigger a state change
+      // Trigger a re-render after setting the token in localstorage.
+      login(response.data.token);
+      navigate("/dashboard");
     } catch (error) {
       console.log(error);
     }

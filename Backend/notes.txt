@@ -1,6 +1,7 @@
 Quick Pointers:
 1. There are two types of Module System in nodejs, CommonJS (which is default) which uses module.exports and require are used for imports and exports && whereas import and export are a part of ES6 module system. 
 If you want to use ES6 Modules add "type": "module" in package.json. 
+
 2. bcrypt is a popular library for hashing passwords , to securely store them in a database. 
 **Salt** is a random data added to the password before hashing. This ensures that if two users have same password then the resulting hashes will be different. 
 **SaltRounds** (cost factor) - determines how many times the bcrypt algo will process the data.
@@ -9,3 +10,8 @@ Bcrypt internally generates a salt using the given number of saltRounds (10 in t
 It appends the salt to the plaintext password.
 It then hashes the combination of the salt and the password.
 Finally, the hashed password (which also contains the salt) is returned and can be stored in a database. 
+
+3. How to create protected routes?
+To have a protected route, we can use JWT(JSON Web Token) authentication. 
+First, check if user has a valid token before accessing the protected route.
+Then, Redirect the unauthorized users to the login page if they dont have a valid token. 

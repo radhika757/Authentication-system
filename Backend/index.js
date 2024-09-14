@@ -1,10 +1,12 @@
 // const express = require('express'); This is used in CommonJS
 import express from "express";
+import jwt from "jsonwebtoken";
 import bcrypt, { hash } from "bcrypt";
 import { pool } from "./db/db.js";
 import cors from "cors"; // allows cross-origin requests
 
 const app = express();
+const router = express.Router();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors({ origin: "http://localhost:5173" })); //enabling CORS for FE-BE ommunication
@@ -44,6 +46,31 @@ app.post("/register", async (req, res) => {
     }
 });
 
+// Middleware to verify JWT 
+const authenticateJwtToken = (req, res, next) => {
+    //
+    const token = req.headers['authorization']?.split(' ')[1];
+
+    if (!token) {
+        res.status(401).json({ message: 'No Token Found, Authorization Denied' });
+    }
+
+    try {
+        //
+        const decoded = jwt.verify(token, 'myJwtSecret');
+        req.user = decoded;
+        next();
+    } catch (error) {
+        return res.status(403).json({ message: "Invalid Token" });
+    }
+}
+
+
+// protected route 
+router.get('dashboard', authenticateJwtToken, (req, res) => {
+    res.json({ message: "Welcome to the Dashboard", user: req.user });
+})
+
 app.post("/login", async (req, res) => {
     const { email, password } = req.body;
     // check if user exists 
@@ -59,11 +86,14 @@ app.post("/login", async (req, res) => {
             return res.status(400).json({ message: 'Incorrect password' });
         }
 
-        res.json({ user: { id: user.id, username: user.username, email: user.email } })
+        // create a JWT token 
+        const token = jwt.sign({ id: user.id, email: user.email }, 'myJwtSecret', {
+            expiresIn: '1h'
+        })
+
+        res.json({ token, user: { id: user.id, username: user.username, email: user.email } })
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'Server error' })
-
     }
-
 });
