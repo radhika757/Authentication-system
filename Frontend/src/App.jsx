@@ -23,6 +23,8 @@ function App() {
               </ProtectedRoute>
             }
           />
+          {/* Catch all route for undefined paths */}
+          <Route path="*" element={<Container/>}/>
         </Routes>
       </BrowserRouter>
     </div>

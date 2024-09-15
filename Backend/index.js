@@ -2,8 +2,10 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import bcrypt, { hash } from "bcrypt";
-import { pool } from "./db/db.js";
 import cors from "cors"; // allows cross-origin requests
+
+import { pool } from "./db/db.js";
+import { sendWelcomeEmails } from "./mail/mailer.js";
 
 const app = express();
 const router = express.Router();
@@ -60,7 +62,9 @@ app.post("/register", async (req, res) => {
         const token = jwt.sign({ id: user.id, email: user.email }, 'myNextJwtSecret', {
             expiresIn: '1h'
         })
-       
+      
+        sendWelcomeEmails(user.email,user.username);
+
         res.status(201).json({
             token,
             message: "User registered successfully",
